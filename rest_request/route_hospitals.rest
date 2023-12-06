@@ -1,0 +1,18 @@
+GET http://localhost:3000/hospital
+###
+POST http://localhost:3000/hospital
+Content-Type: application/json
+
+{
+    "name": "RS Merpatikuy",
+    "address": "Jln. Merpatikuy"
+}
+###
+PATCH http://localhost:3000/hospital/hospital0000001
+Content-Type: application/json
+
+{
+    "address": "Jln. Merpatikuy no 123"
+}
+###
+DELETE http://localhost:3000/hospital/hospital0000001

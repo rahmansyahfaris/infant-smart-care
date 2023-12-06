@@ -1,0 +1,33 @@
+GET http://localhost:3000/baby
+###
+GET http://localhost:3000/baby/baby0000002
+###
+POST http://localhost:3000/baby
+Content-Type: application/json
+
+{
+    "temperature": 37,
+    "humidity": 0.4,
+    "emotion_id": "emotion_hungry"
+}
+###
+PATCH http://localhost:3000/baby/baby0000001
+Content-Type: application/json
+
+{
+    "emotion_id": "emotion_belly_pain",
+    "history": []
+}
+###
+GET http://localhost:3000/baby/baby0000001/history
+###
+POST http://localhost:3000/baby/baby0000001/history
+Content-Type: application/json
+
+{
+    "temperature": 37,
+    "humidity": 0.2,
+    "emotion_id": "emotion_belly_pain"
+}
+###
+DELETE http://localhost:3000/baby/baby0000001

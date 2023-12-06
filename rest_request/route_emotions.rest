@@ -1,0 +1,19 @@
+GET http://localhost:3000/emotion
+###
+POST http://localhost:3000/emotion
+Content-Type: application/json
+
+{
+    "emotion_id": "emotion_7",
+    "name": "Test Debug Emotion"
+}
+###
+PATCH http://localhost:3000/emotion/emotion_7
+Content-Type: application/json
+
+{
+    "emotion_id": "emotion_8",
+    "name": "Test Debug Emotion 2"
+}
+###
+DELETE http://localhost:3000/emotion/emotion_8

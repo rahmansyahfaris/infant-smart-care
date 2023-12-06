@@ -1,0 +1,49 @@
+GET http://localhost:3000/incubator
+Api-Key: ProtelLegusApex
+###
+GET http://localhost:3000/incubator/wow id
+###
+POST http://localhost:3000/incubator
+Content-Type: application/json
+
+{
+    "incubator_id": "nice_id",
+    "name": "Test Nama Incubator Ruang A234",
+    "birth_date": "2023-09-03T03:00:00.000Z",
+    "gender": "Male",
+    "parents": ["Aldi", "Zoro", "Herman"],
+    "baby_id": "baby0000001",
+    "admin_id": "admin0000001",
+    "date_created": "2023-09-03T03:00:00.000Z"
+}
+###
+POST http://localhost:3000/incubator
+Content-Type: application/json
+
+{
+    "name": "Test Nama Incubator Ruang A236"
+}
+###
+PATCH http://localhost:3000/incubator/incubator0000001
+Content-Type: application/json
+
+{
+    "baby_id": "baby0000002",
+    "parents": []
+}
+###
+PATCH http://localhost:3000/incubator/incubator0000001/add-parents
+Content-Type: application/json
+
+{
+    "parents": ["Tom", "Dick", "Harry", "Bahamas"]
+}
+###
+PATCH http://localhost:3000/incubator/incubator0000001/remove-parents
+Content-Type: application/json
+
+{
+    "parents": ["Tom", "Dick", "Harry", "Bahamas", "Yolo"]
+}
+###
+DELETE http://localhost:3000/incubator/wowid

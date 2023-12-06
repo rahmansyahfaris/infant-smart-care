@@ -1,0 +1,22 @@
+{
+  "name": "infant_smart_care",
+  "version": "1.0.0",
+  "description": "Infant Smart Care Project",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "author": "M. Faris Rahmansyah",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "ip": "^2.0.0",
+    "mongoose": "^7.6.3"
+  }
+}

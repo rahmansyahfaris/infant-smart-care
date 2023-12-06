@@ -1,0 +1,43 @@
+===============================================================================
+Welcome to
+Infant Smart Care Test Collection API:
+===============================================================================
+GET ALL:
+/test_collection/
+===============================================================================
+GET ONE:
+/test_collection/{id}
+===============================================================================
+POST:
+/test_collection/
+
+Content-Type: application/json
+
+Example Body:
+{
+    "id": 2000000,
+    "timenow": "2023-10-22T03:33:39.369Z",
+    "temperature": 25.5,
+    "humidity": 50.2,
+    "admin": "Test Admin",
+    "emotion": "burping",
+    "name": "Test John Doe",
+    "gender": "Male",
+    "birthdate": "2000-01-01T00:00:00.000Z",
+    "parent_name": "Test Parent John Doe"
+}
+===============================================================================
+DELETE:
+/test_collection/{id}
+===============================================================================
+PATCH:
+/test_collection/{id}
+
+Content-Type: application/json
+
+Example Body:
+{
+    "name": "Test New Name",
+    "parent_name": "Test Parent New Name"
+}
+===============================================================================

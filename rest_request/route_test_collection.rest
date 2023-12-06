@@ -1,0 +1,28 @@
+GET http://localhost:3000/test_collection
+###
+POST http://localhost:3000/test_collection
+Content-Type: application/json
+
+{
+    "id": 2000000,
+    "timenow": "2023-10-22T03:33:39.369Z",
+    "temperature": 25.5,
+    "humidity": 50.2,
+    "admin": "Test Admin",
+    "emotion": "burping",
+    "name": "Test John Doe",
+    "gender": "Male",
+    "birthdate": "2000-01-01T00:00:00.000Z",
+    "parent_name": "Test Parent John Doe"
+}
+###
+GET http://localhost:3000/test_collection/1000002
+###
+DELETE http://localhost:3000/test_collection/2000000
+###
+PATCH http://localhost:3000/test_collection/2000000
+Content-Type: application/json
+
+{
+    "name": "New Name"
+}

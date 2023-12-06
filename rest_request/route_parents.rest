@@ -1,0 +1,34 @@
+GET http://localhost:3000/parent
+###
+GET http://localhost:3000/parent/parent0000001
+###
+POST http://localhost:3000/parent
+Content-Type: application/json
+
+{
+    "name": "Pak Basiro"
+}
+###
+PATCH http://localhost:3000/parent/parent0000001
+Content-Type: application/json
+
+{
+    "name": "Pak Basir Parman",
+    "incubators": ["Ruang A235", "Ruang A234"]
+}
+###
+PATCH http://localhost:3000/parent/parent0000001/add-incubators
+Content-Type: application/json
+
+{
+    "incubators": ["incubator0000001", "incubator0000002","incubator0000003"]
+}
+###
+PATCH http://localhost:3000/parent/parent0000001/remove-incubators
+Content-Type: application/json
+
+{
+    "incubators": ["incubator0000003"]
+}
+###
+DELETE http://localhost:3000/parent/parent0000001

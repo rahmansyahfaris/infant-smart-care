@@ -1,0 +1,26 @@
+GET http://localhost:3000/admin
+Api-Key: LegusApex123
+###
+GET http://localhost:3000/admin/admin0000002
+Api-Key: LegusApex123
+###
+POST http://localhost:3000/admin
+Content-Type: application/json
+Api-Key: LegusApex123
+
+{
+    "name": "Test Nama Admin Adi",
+    "hospital_id": "hospital0000010",
+    "password": "admin123"
+}
+###
+PATCH http://localhost:3000/admin/admin0000001
+Content-Type: application/json
+
+{
+    "name": "Test Nama Admin Simpson",
+    "passoword": "ganti123"
+}
+###
+DELETE  http://localhost:3000/admin/admin0000001
+Api-Key: LegusApex123
