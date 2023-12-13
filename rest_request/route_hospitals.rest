@@ -1,11 +1,13 @@
 GET http://localhost:3000/hospital
 ###
+GET http://localhost:3000/hospital/hospital0000001
+###
 POST http://localhost:3000/hospital
 Content-Type: application/json
 
 {
-    "name": "RS Merpatikuy",
-    "address": "Jln. Merpatikuy"
+    "name": "RS Merpatiku wow",
+    "address": "Jln. Merpatiku wow"
 }
 ###
 PATCH http://localhost:3000/hospital/hospital0000001
@@ -16,3 +18,11 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:3000/hospital/hospital0000001
+###
+POST http://157.230.37.110:3000/hospital
+Content-Type: application/json
+
+{
+    "name": "RS Merpatikuy",
+    "address": "Jln. Merpatikuy"
+}

@@ -1,5 +1,7 @@
 GET http://localhost:3000/emotion
 ###
+GET http://localhost:3000/emotion/emotion_6
+###
 POST http://localhost:3000/emotion
 Content-Type: application/json
 
@@ -17,3 +19,15 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:3000/emotion/emotion_8
+###
+GET http://157.230.37.110:3000/emotion
+###
+POST http://157.230.37.110:3000/emotion
+Content-Type: application/json
+
+{
+    "emotion_id": "emotion_10",
+    "name": "Test Debug Emotion"
+}
+###
+DELETE http://157.230.37.110:3000/emotion/emotion_10

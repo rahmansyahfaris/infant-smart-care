@@ -1,0 +1,304 @@
+paths:
+  /parent:
+    get:
+      summary: Lists all parents
+      tags:
+        - [Parent]
+      responses:
+        '200':
+          description: Successfully listed all parents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/parent'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+    post:
+      summary: Create a new parent
+      tags:
+        - [Parent]
+      requestBody:
+        description: Parent data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                parent_id: parent0000001
+                name: Muhadi Pamungkas
+                hospital_id: hospital0000001
+                incubators:
+                  - incubator0000001
+                  - incubator0000002
+                  - incubator0000003
+                date_created: 2023-01-12T12:20:00.000Z
+      responses:
+        '201':
+          description: The parent was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parent'
+        '400':
+          description: Bad request. The parent creation failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /parent/{id}:
+    get:
+      summary: Get a parent by id
+      tags:
+        - [Parent]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The parent id
+      responses:
+        '200':
+          description: Parent successfully fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parent'
+        '404':
+          description: There is no parent with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    patch:
+      summary: Update a parent by id
+      tags:
+        - [Parent]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the parent to update
+      requestBody:
+        description: Partial data update for the parent
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                parent_id: parent0000010
+                name: Updated Name
+                hospital_id: hospital0000010
+                incubators:
+                - incubator0000010
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              example:
+                parent_id: parent0000010
+                name: Updated Name
+                hospital_id: hospital0000010
+                incubators:
+                  - incubator0000010
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. Update failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No parent to update with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    delete:
+      summary: Delete a parent by id
+      tags:
+        - [Parent]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the parent to delete
+      responses:
+        '200':
+          description: Successfully deleted
+          content:
+            application/json:
+              example:
+                message: Document successfully deleted
+        '404':
+          description: No parent to delete with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+        '500':
+          description: Internal server error. Deletion failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /parent/{id}/add-incubators:
+    patch:
+      summary: Add incubators to a parent by id
+      tags:
+        - [Parent]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the parent to add incubators to
+      requestBody:
+        description: Data for adding incubators to the parent
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                parents:
+                  - incubator0000004
+                  - incubator0000005
+      responses:
+        '200':
+          description: Incubators were successfully added to the parent
+          content:
+            application/json:
+              example:
+                parent_id: parent0000001
+                name: Muhadi Pamungkas
+                hospital_id: hospital0000001
+                incubators:
+                  - incubator0000001
+                  - incubator0000002
+                  - incubator0000003
+                  - incubator0000004
+                  - incubator0000005
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. Adding incubators to the parent failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No parent with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+
+  /parent/{id}/remove-incubators:
+    patch:
+      summary: Remove incubators in a parent by id
+      tags:
+        - [Parent]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the parent where the incubators need to be removed
+      requestBody:
+        description: Data for removing incubators in the parent
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                parents:
+                  - incubator0000001
+      responses:
+        '200':
+          description: Incubators were successfully removed from the parent
+          content:
+            application/json:
+              example:
+                parent_id: parent0000001
+                name: Muhadi Pamungkas
+                hospital_id: hospital0000001
+                incubators:
+                  - incubator0000002
+                  - incubator0000003
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. Removing incubators in the parent failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No parent with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+
+components:
+  schemas:
+    parent:
+      type: object
+      required:
+        - parent_id
+        - type
+      properties:
+        parent_id:
+          type: string
+          description: |
+            The id of the parent. You can assign your custom id, or you can also let the API auto-generate and auto-increment the id by not assigning an id in the request.
+        type:
+          type: string
+          description: |
+            The type of data, sets to "Parent" by default. Cannot be changed. Not to be included in the request.
+        name:
+          type: string
+          description: |
+            The parent's name. Can be empty and excluded in the request.
+        hospital_id:
+          type: string
+          description: |
+            The id of the hospital related to the parent. Can be empty and excluded in the request.
+        incubators:
+          type: array
+          items:
+            type: string
+          description: |
+            An array of incubators (use incubator_id) that the parent can access and view. Can be empty and excluded in the request.
+        date_created:
+          type: string
+          format: date
+          description: |
+            The date of when this document is created. Sets to the current date and time by default if excluded in the request but can also be included to set custom date and time.
+      example:
+        parent_id: parent0000001
+        type: Parent
+        name: Muhadi Pamungkas
+        hospital_id: hospital0000001
+        incubators:
+          - incubator0000001
+          - incubator0000002
+          - incubator0000003
+        date_created: 2023-01-12T12:20:00.000Z

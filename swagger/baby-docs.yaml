@@ -1,0 +1,321 @@
+
+paths:
+  /baby:
+    get:
+      summary: Lists all babies
+      tags:
+        - [Baby]
+      responses:
+        '200':
+          description: Successfully listed all incubators
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/baby'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+    post:
+      summary: Create a new baby
+      tags:
+        - [Baby]
+      requestBody:
+        description: Baby data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                baby_id: baby0000001
+                temperature: 37
+                humidity: 0.4
+                emotion_id: emotion_1
+                history: []
+                date_created: 2023-01-12T12:20:00.000Z
+      responses:
+        '201':
+          description: The baby was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/baby'
+        '400':
+          description: Bad request. The baby creation failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /baby/{id}:
+    get:
+      summary: Get a baby by id
+      tags:
+        - [Baby]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The baby id
+      responses:
+        '200':
+          description: Baby successfully fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/baby'
+        '404':
+          description: There is no baby with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    patch:
+      summary: Update a baby by id
+      tags:
+        - [Baby]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the baby to update
+      requestBody:
+        description: Partial data update for the baby (past recorded history will not adjust to the new baby_id)
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                baby_id: baby0000020
+                temperature: 36.6
+                humidity: 0.5
+                emotion_id: emotion_2
+      responses:
+        '200':
+          description: The baby was successfully updated
+          content:
+            application/json:
+              example:
+                baby_id: baby0000020
+                type: Baby
+                temperature: 36.6
+                humidity: 0.5
+                emotion_id: emotion_2
+                history: []
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. The baby update failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No baby to update with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    delete:
+      summary: Delete a baby by id
+      tags:
+        - [Baby]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the baby to delete
+      responses:
+        '200':
+          description: Successfully deleted the baby
+          content:
+            application/json:
+              example:
+                message: Document successfully deleted
+        '404':
+          description: No baby to delete with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+        '500':
+          description: Internal server error. The baby deletion failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /baby/{id}/history:
+    post:
+      summary: Add a recorded data to the history of a baby by id
+      tags:
+        - [Baby]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the baby to add history to
+      requestBody:
+        description: Data to be added to the history (it will also update the temperature, humidity, and emotion data of the baby)
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                temperature: 36.7
+                humidity: 0.45
+                emotion_id: emotion_3
+      responses:
+        '200':
+          description: History were successfully added to the baby
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    baby_id: baby0000001
+                    date: 2023-01-12T12:30:00.000Z
+                    type: History
+                    temperature: 36.7
+                    humidity: 0.45
+                    emotion_id: emotion_3
+        '400':
+          description: Bad request. Adding history to the baby failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No baby with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    get:
+      summary: Lists all history of a baby by id
+      tags:
+        - [Baby]
+      responses:
+        '200':
+          description: Successfully listed all history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    baby_id: baby0000001
+                    date: 2023-01-12T12:30:00.000Z
+                    type: History
+                    temperature: 36.7
+                    humidity: 0.45
+                    emotion_id: emotion_3
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+components:
+  schemas:
+    baby:
+      type: object
+      required:
+        - baby_id
+        - type
+      properties:
+        baby_id:
+          type: string
+          description: |
+            The id of the infant / baby. You can assign your custom id, or you can also let the API auto-generate and auto-increment the id by not assigning an id in the request.
+        type:
+          type: string
+          description: |
+            The type of data, sets to "Baby" by default. Cannot be changed. Not to be included in the request.
+        temperature:
+          type: number
+          description: |
+            The current / latest temperature value of the infant / baby. Can be empty or excluded in the request.
+        humidity:
+          type: number
+          description: |
+            The current / latest humidity value of the infant / baby. Can be empty or excluded in the request.
+        emotion_id:
+          type: string
+          description: |
+            The current / latest emotion of the infant / baby. Can be empty or excluded in the request.
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/history'
+          description: |
+            An array of history that has its own schema. Contains records of temperature, humidity, and emotion of the infant / baby at points in time. Can be empty and excluded in the request.
+        date_created:
+          type: string
+          format: date
+          description: |
+            The date of when this document is created. Sets to the current date and time by default if excluded in the request but can also be included to set custom date and time.
+      example:
+        incubator_id: baby0000001
+        type: Baby
+        temperature: 37
+        humidity: 0.4
+        emotion_id: emotion_1
+        history: []
+        date_created: 2023-01-12T12:20:00.000Z
+
+    history:
+      type: object
+      required:
+        - baby_id
+        - date
+        - type
+      properties:
+        baby_id:
+          type: string
+          description: |
+            The id of the infant / baby. Automatically assigned to the corresponding infant (baby_id). Not to be included in the request
+        date:
+          type: string
+          format: date
+          description: |
+            The date and time of the recorded data
+        type:
+          type: string
+          description: |
+            The type of data, sets to "History" by default. Cannot be changed. Not to be included in the request.
+        temperature:
+          type: number
+          description: |
+            The temperature value of the infant / baby at the given date and time. Can be empty or excluded in the request.
+        humidity:
+          type: number
+          description: |
+            The humidity value of the infant / baby at the given date and time. Can be empty or excluded in the request.
+        emotion_id:
+          type: string
+          description: |
+            The emotion of the infant / baby at the given date and time. Can be empty or excluded in the request.
+      example:
+        incubator_id: baby0000001
+        date: 2023-01-12T12:30:00.000Z
+        type: History
+        temperature: 37
+        humidity: 0.4
+        emotion_id: emotion_1

@@ -39,9 +39,6 @@ const hospitalSchema = new mongoose.Schema({
     address: {
         type: String
     },
-    emotion_id: {
-        type: String
-    },
     date_created: {
         type: Date,
         default: Date.now

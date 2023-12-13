@@ -13,6 +13,12 @@ router.get("/", async (req, res) => {
     }
 })
 
+// Get one
+router.get("/:id", getDocument, (req, res) => {
+    // req.params.id
+    res.json(res.document)
+})
+
 // Create one
 router.post("/", async (req, res) => {
     try {

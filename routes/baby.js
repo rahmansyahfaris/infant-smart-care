@@ -88,6 +88,12 @@ router.post("/:id/history", getDocument, async (req, res) => {
         // Add the new history to the baby's history array
         res.document.history.push(newHistory);
 
+        // Change the current conditions of the baby in the baby schema based on this new history
+        res.document.date = newHistory.date
+        res.document.temperature = newHistory.temperature
+        res.document.humidity = newHistory.humidity
+        res.document.emotion_id = newHistory.emotion_id
+
         // Save the updated baby document
         const updatedDocument = await res.document.save();
 

@@ -1,3 +1,13 @@
+
+// Swagger documentation
+/**
+ * @swagger
+ * components:
+ *   $ref: '../swagger/bab-docs.yaml'
+ */
+
+// Route Handling code
+
 const mongoose = require('mongoose')
 const { Counter } = require('./incubator.js')
 
@@ -28,7 +38,7 @@ const historySchema = new mongoose.Schema({
     type: { type: String, required: true, default: "History" },
     temperature: { type: Number },
     humidity: { type: Number },
-    emotion_id: { String }
+    emotion_id: { type: String }
 })
 
 // Baby Schema

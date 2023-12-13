@@ -1,0 +1,337 @@
+paths:
+  /incubator:
+    get:
+      summary: Lists all incubators
+      tags:
+        - [Incubator]
+      responses:
+        '200':
+          description: Successfully listed all incubators
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/incubator'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+    post:
+      summary: Create a new incubator
+      tags:
+        - [Incubator]
+      requestBody:
+        description: Incubator data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                incubator_id: incubator0000001
+                name: Arif Parman
+                birth_date: 2023-01-12T12:00:00.000Z
+                gender: Male
+                parents:
+                  - parent0000001
+                  - parent0000002
+                  - parent0000003
+                baby_id: baby0000001
+                admin_id: admin0000001
+                date_created: 2023-01-12T12:20:00.000Z
+      responses:
+        '201':
+          description: The incubator was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/incubator'
+        '400':
+          description: Bad request. The incubator creation failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /incubator/{id}:
+    get:
+      summary: Get an incubator by id
+      tags:
+        - [Incubator]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The incubator id
+      responses:
+        '200':
+          description: Incubator successfully fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/incubator'
+        '404':
+          description: There is no incubator with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    patch:
+      summary: Update an incubator by id
+      tags:
+        - [Incubator]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the incubator to update
+      requestBody:
+        description: Partial data update for the incubator
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Updated Name
+                birth_date: 2023-01-15T12:00:00.000Z
+                gender: Female
+                parents:
+                - parent0000010
+      responses:
+        '200':
+          description: The incubator was successfully updated
+          content:
+            application/json:
+              example:
+                incubator_id: incubator0000001
+                type: Incubator
+                name: Updated Name
+                birth_date: 2023-01-15T12:00:00.000Z
+                gender: Female
+                parents:
+                - parent0000010
+                baby_id: baby0000001
+                admin_id: admin0000001
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. The incubator update failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No incubator to update with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    delete:
+      summary: Delete an incubator by id
+      tags:
+        - [Incubator]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the incubator to delete
+      responses:
+        '200':
+          description: Successfully deleted the incubator
+          content:
+            application/json:
+              example:
+                message: Document successfully deleted
+        '404':
+          description: No incubator to delete with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+        '500':
+          description: Internal server error. The incubator deletion failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /incubator/{id}/add-parents:
+    patch:
+      summary: Add parents to an incubator by id
+      tags:
+        - [Incubator]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the incubator to add parents to
+      requestBody:
+        description: Data for adding parents to the incubator
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                parents:
+                  - parent0000004
+                  - parent0000005
+      responses:
+        '200':
+          description: Parents were successfully added to the incubator
+          content:
+            application/json:
+              example:
+                incubator_id: incubator0000001
+                type: Incubator
+                name: Arif Parman
+                birth_date: 2023-01-12T12:00:00.000Z
+                gender: Male
+                parents:
+                - parent0000001
+                - parent0000002
+                - parent0000003
+                - parent0000004
+                - parent0000005
+                baby_id: baby0000001
+                admin_id: admin0000001
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. Adding parents to the incubator failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No incubator with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+
+  /incubator/{id}/remove-parents:
+    patch:
+      summary: Remove parents in an incubator by id
+      tags:
+        - [Incubator]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the incubator where the parents need to be removed
+      requestBody:
+        description: Data for removing parents in the incubator
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                parents:
+                  - parent0000001
+      responses:
+        '200':
+          description: Parents were successfully removed from the incubator
+          content:
+            application/json:
+              example:
+                incubator_id: incubator0000001
+                type: Incubator
+                name: Arif Parman
+                birth_date: 2023-01-12T12:00:00.000Z
+                gender: Male
+                parents:
+                - parent0000002
+                - parent0000003
+                baby_id: baby0000001
+                admin_id: admin0000001
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. Removing parents in the incubator failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No incubator with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+
+
+
+components:
+  schemas:
+    incubator:
+      type: object
+      required:
+        - incubator_id
+        - type
+      properties:
+        incubator_id:
+          type: string
+          description: |
+            The id of the incubator. You can assign your custom id, or you can also let the API auto-generate and auto-increment the id by not assigning an id in the request.
+        type:
+          type: string
+          description: |
+            The type of data, sets to "Incubator" by default. Cannot be changed. Not to be included in the request.
+        name:
+          type: string
+          description: |
+            The name assigned to the incubator, typically the name of the infant. Can be empty and excluded in the request.
+        birth_date:
+          type: string
+          format: date
+          description: |
+            The birth date of the infant. Can be empty and excluded in the request.
+        gender:
+          type: string
+          description: |
+            The gender of the infant, typically can be either Male, Female, or Unknown. Can be empty or excluded in the request.
+        parents:
+          type: array
+          items:
+            type: string
+          description: |
+            An array of parents (use parent_id) who parent the infant. Can be empty and excluded in the request.
+        baby_id:
+          type: string
+          description: |
+            The infant id (baby_id) of the incubator. Can be empty and excluded in the request.
+        admin_id:
+          type: string
+          description: |
+            The id of the admin (admin_id) who is responsible for the incubator and the infant. Can be empty and excluded in the request.
+        date_created:
+          type: string
+          format: date
+          description: |
+            The date of when this document is created. Sets to the current date and time by default if excluded in the request but can also be included to set custom date and time.
+      example:
+        incubator_id: incubator0000001
+        type: Incubator
+        name: Arif Parman
+        birth_date: 2023-01-12T12:00:00.000Z
+        gender: Male
+        parents:
+          - parent0000001
+          - parent0000002
+          - parent0000003
+        baby_id: baby0000001
+        admin_id: admin0000001
+        date_created: 2023-01-12T12:20:00.000Z

@@ -1,0 +1,182 @@
+paths:
+  /emotion:
+    get:
+      summary: Lists all emotions
+      tags:
+        - [Emotion]
+      responses:
+        '200':
+          description: Successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/emotion'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+    post:
+      summary: Create a new emotion
+      tags:
+        - [Emotion]
+      requestBody:
+        description: Emotion data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                emotion_id: emotion_1
+                name: Belly Pain
+                date_created: 2023-01-12T12:20:00.000Z
+      responses:
+        '201':
+          description: Successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/emotion'
+        '400':
+          description: Bad request. Creation failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /emotion/{id}:
+    get:
+      summary: Get emotion by id
+      tags:
+        - [Emotion]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The emotion id
+      responses:
+        '200':
+          description: Successfully fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/emotion'
+        '404':
+          description: There is no emotion with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    patch:
+      summary: Update emotion by id
+      tags:
+        - [Emotion]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the emotion to update
+      requestBody:
+        description: Partial data update for the emotion
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                emotion_id: emotion_2
+                name: Burping
+                date_created: 2023-01-12T12:30:00.000Z
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              example:
+                emotion_id: emotion_2
+                type: Emotion
+                name: Burping
+                date_created: 2023-01-12T12:30:00.000Z
+        '400':
+          description: Bad request. Update failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No emotion to update with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    delete:
+      summary: Delete emotion by id
+      tags:
+        - [Emotion]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the emotion to delete
+      responses:
+        '200':
+          description: Successfully deleted
+          content:
+            application/json:
+              example:
+                message: Document successfully deleted
+        '404':
+          description: No emotion to delete with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+        '500':
+          description: Internal server error. Deletion failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+
+
+components:
+  schemas:
+    emotion:
+      type: object
+      required:
+        - emotion_id
+        - type
+      properties:
+        emotion_id:
+          type: string
+          description: |
+            The id of the emotion.
+        type:
+          type: string
+          description: |
+            The type of data, sets to "Emotion" by default. Cannot be changed. Not to be included in the request.
+        name:
+          type: string
+          description: |
+            The emotion name. Can be empty or excluded in the request.
+        date_created:
+          type: string
+          format: date
+          description: |
+            The date of when this document is created. Sets to the current date and time by default if excluded in the request but can also be included to set custom date and time.
+      example:
+        emotion_id: emotion_1
+        type: Emotion
+        name: Belly Pain
+        date_created: 2023-01-12T12:20:00.000Z

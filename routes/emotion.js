@@ -13,6 +13,12 @@ router.get("/", async (req, res) => {
     }
 })
 
+// Get one
+router.get("/:id", getDocument, (req, res) => {
+    // req.params.id
+    res.json(res.document)
+})
+
 // Create one
 router.post("/", async (req, res) => {
     try {
@@ -43,6 +49,16 @@ router.patch("/:id", getDocument, async (req, res) => {
     }
 })
 
+// Delete one
+router.delete("/:id", getDocument, async (req, res) => {
+    try {
+        await res.document.deleteOne()
+        res.json({ message: "Document successfully deleted" })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
 // Middleware
 async function getDocument(req, res, next) {
     let document
@@ -58,16 +74,6 @@ async function getDocument(req, res, next) {
     res.document = document
     next()
 }
-
-// Delete one
-router.delete("/:id", getDocument, async (req, res) => {
-    try {
-        await res.document.deleteOne()
-        res.json({ message: "Document successfully deleted" })
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-})
 
 
 module.exports = router

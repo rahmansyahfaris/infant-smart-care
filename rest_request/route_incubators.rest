@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "incubator_id": "nice_id",
-    "name": "Test Nama Incubator Ruang A234",
+    "name": "Nama Bayi",
     "birth_date": "2023-09-03T03:00:00.000Z",
     "gender": "Male",
     "parents": ["Aldi", "Zoro", "Herman"],
@@ -47,3 +47,20 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:3000/incubator/wowid
+###
+GET http://157.230.37.110:3000/incubator/nice_id
+###
+POST http://157.230.37.110:3000/incubator
+Content-Type: application/json
+
+{
+    "name": "Nama Bayi 3",
+    "birth_date": "2023-09-03T03:00:00.000Z",
+    "gender": "Male",
+    "parents": ["Halo"],
+    "baby_id": "baby0000001",
+    "admin_id": "admin0000001",
+    "date_created": "2023-09-03T03:00:00.000Z"
+}
+###
+DELETE http://157.230.37.110:3000/incubator/dlsidjifls

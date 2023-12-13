@@ -1,0 +1,199 @@
+paths:
+  /admin:
+    get:
+      summary: Lists all admins
+      tags:
+        - [Admin]
+      responses:
+        '200':
+          description: Successfully listed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/admin'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+    post:
+      summary: Create a new admin
+      tags:
+        - [Admin]
+      requestBody:
+        description: Admin data to create
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                admin_id: admin0000001
+                name: Muhadi Pamungkas
+                hospital_id: hospital0000001
+                password: admin123
+                date_created: 2023-01-12T12:20:00.000Z
+      responses:
+        '201':
+          description: Successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/admin'
+        '400':
+          description: Bad request. Creation failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+  /admin/{id}:
+    get:
+      summary: Get an admin by id
+      tags:
+        - [Admin]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The admin id
+      responses:
+        '200':
+          description: Successfully fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/admin'
+        '404':
+          description: There is no admin with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    patch:
+      summary: Update an admin by id
+      tags:
+        - [Admin]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the admin to update
+      requestBody:
+        description: Partial data update for the admin
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                admin_id: admin0000010
+                name: Admin_ER
+                hospital_id: hospital0000010
+                password: 321admin
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              example:
+                admin_id: admin0000010
+                name: Admin_ER
+                hospital_id: hospital0000010
+                password: $2b$10$Ip43ReHizBmOKpLAkAA.muUlLusW3TAfrbWX/RspjPesHczqv4YrO
+                date_created: 2023-01-12T12:20:00.000Z
+        '400':
+          description: Bad request. Update failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+        '404':
+          description: No admin to update with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+    delete:
+      summary: Delete an admin by id
+      tags:
+        - [Admin]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The id of the admin to delete
+      responses:
+        '200':
+          description: Successfully deleted
+          content:
+            application/json:
+              example:
+                message: Document successfully deleted
+        '404':
+          description: No admin to delete with that id
+          content:
+            application/json:
+              example:
+                message: Cannot find document
+        '500':
+          description: Internal server error. Deletion failed.
+          content:
+            application/json:
+              example:
+                message: <some error message>
+
+
+
+components:
+  schemas:
+    admin:
+      type: object
+      required:
+        - admin_id
+        - type
+        - name
+        - hospital_id
+        - password
+      properties:
+        admin_id:
+          type: string
+          description: |
+            The id of the admin. You can assign your custom id, or you can also let the API auto-generate and auto-increment the id by not assigning an id in the request.
+        type:
+          type: string
+          description: |
+            The type of data, sets to "Admin" by default. Cannot be changed. Not to be included in the request.
+        name:
+          type: string
+          description: |
+            The admin's name.
+        hospital_id:
+          type: string
+          description: |
+            The id of the hospital where the admin operates.
+        password:
+          type: string
+          description: |
+            The password of the admin. Will be encrypted.
+        date_created:
+          type: string
+          format: date
+          description: |
+            The date of when this document is created. Sets to the current date and time by default if excluded in the request but can also be included to set custom date and time.
+      example:
+        admin_id: admin0000001
+        type: Admin
+        name: Admin_Main_Room
+        hospital_id: hospital0000001
+        password: $2b$10$LkqKMWqfjlrMMWqmOAw6ZegDlUzmvAEPVZpM3b.CY/TJQZCgK4j0q
+        date_created: 2023-01-12T12:20:00.000Z
