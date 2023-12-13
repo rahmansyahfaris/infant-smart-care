@@ -5,3 +5,5 @@ Content-Type: application/json
 Api-Key: seeTheApiKeyInTheDotenvFile
 
 focus on schema, post, and patch whenever there's a change on schema
+
+This project doesn't include node_modules directory so please reinstall them using npm install
