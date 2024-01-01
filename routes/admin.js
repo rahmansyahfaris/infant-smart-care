@@ -39,6 +39,7 @@ router.post("/", async (req, res) => {
             admin_id: admin_id_used,
             name: req.body.name,
             hospital_id: req.body.hospital_id,
+            email: req.body.email,
             password: req.body.password,
             date_created: req.body.date_created
         })
@@ -56,6 +57,7 @@ router.patch("/:id", getAdmin, async (req, res) => {
     if (req.body.admin_id != null) { res.document.admin_id = req.body.admin_id }
     if (req.body.name != null) { res.document.name = req.body.name }
     if (req.body.hospital_id != null) { res.document.hospital_id = req.body.hospital_id }
+    if (req.body.email != null) { res.document.email = req.body.email }
     if (req.body.password != null) { res.document.password = req.body.password }
     if (req.body.date_created != null) { res.document.date_created = req.body.date_created }
     try {

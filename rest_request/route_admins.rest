@@ -11,6 +11,7 @@ Api-Key: LegusApex123
 {
     "name": "Test Nama Admin Adin",
     "hospital_id": "hospital0000010",
+    "email": "adin@email.com",
     "password": "321admin"
 }
 ###
@@ -19,7 +20,8 @@ Content-Type: application/json
 
 {
     "name": "Test Nama Admin Simpson",
-    "passoword": "ganti123"
+    "email": "adin123@email.com",
+    "password": "ganti123"
 }
 ###
 DELETE  http://localhost:3000/admin/admin0000001

@@ -7,14 +7,12 @@ POST http://localhost:3000/incubator
 Content-Type: application/json
 
 {
-    "incubator_id": "nice_id",
     "name": "Nama Bayi",
-    "birth_date": "2023-09-03T03:00:00.000Z",
+    "birth_date": "10/09/2008 10:59",
     "gender": "Male",
     "parents": ["Aldi", "Zoro", "Herman"],
     "baby_id": "baby0000001",
-    "admin_id": "admin0000001",
-    "date_created": "2023-09-03T03:00:00.000Z"
+    "admin_id": "admin0000001"
 }
 ###
 POST http://localhost:3000/incubator
@@ -28,6 +26,7 @@ PATCH http://localhost:3000/incubator/incubator0000001
 Content-Type: application/json
 
 {
+    "birth_date": "10/09/2008 01:59",
     "baby_id": "baby0000002",
     "parents": []
 }
@@ -63,4 +62,4 @@ Content-Type: application/json
     "date_created": "2023-09-03T03:00:00.000Z"
 }
 ###
-DELETE http://157.230.37.110:3000/incubator/dlsidjifls
+DELETE http://157.230.37.110:3000/incubator/incubator0000001

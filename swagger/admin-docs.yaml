@@ -32,8 +32,9 @@ paths:
               type: object
               example:
                 admin_id: admin0000001
-                name: Muhadi Pamungkas
+                name: Admin_Main_Room
                 hospital_id: hospital0000001
+                email: mainroom@email.com
                 password: admin123
                 date_created: 2023-01-12T12:20:00.000Z
       responses:
@@ -97,6 +98,7 @@ paths:
                 admin_id: admin0000010
                 name: Admin_ER
                 hospital_id: hospital0000010
+                email: adminer@email.com
                 password: 321admin
       responses:
         '200':
@@ -107,6 +109,7 @@ paths:
                 admin_id: admin0000010
                 name: Admin_ER
                 hospital_id: hospital0000010
+                email: adminer@email.com
                 password: $2b$10$Ip43ReHizBmOKpLAkAA.muUlLusW3TAfrbWX/RspjPesHczqv4YrO
                 date_created: 2023-01-12T12:20:00.000Z
         '400':
@@ -181,6 +184,10 @@ components:
           type: string
           description: |
             The id of the hospital where the admin operates.
+        email:
+          type: string
+          description: |
+            The email of the admin.
         password:
           type: string
           description: |
@@ -195,5 +202,6 @@ components:
         type: Admin
         name: Admin_Main_Room
         hospital_id: hospital0000001
+        email: mainroom@email.com
         password: $2b$10$LkqKMWqfjlrMMWqmOAw6ZegDlUzmvAEPVZpM3b.CY/TJQZCgK4j0q
         date_created: 2023-01-12T12:20:00.000Z

@@ -42,6 +42,9 @@ const incubatorSchema = new mongoose.Schema({
         type: String
     },
     birth_date: {
+        type: String
+    },
+    birth_date_iso8601: {
         type: Date
     },
     gender: {

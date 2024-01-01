@@ -248,18 +248,6 @@ components:
           type: string
           description: |
             The type of data, sets to "Baby" by default. Cannot be changed. Not to be included in the request.
-        temperature:
-          type: number
-          description: |
-            The current / latest temperature value of the infant / baby. Can be empty or excluded in the request.
-        humidity:
-          type: number
-          description: |
-            The current / latest humidity value of the infant / baby. Can be empty or excluded in the request.
-        emotion_id:
-          type: string
-          description: |
-            The current / latest emotion of the infant / baby. Can be empty or excluded in the request.
         history:
           type: array
           items:

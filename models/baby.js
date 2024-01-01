@@ -1,13 +1,3 @@
-
-// Swagger documentation
-/**
- * @swagger
- * components:
- *   $ref: '../swagger/bab-docs.yaml'
- */
-
-// Route Handling code
-
 const mongoose = require('mongoose')
 const { Counter } = require('./incubator.js')
 
@@ -34,10 +24,14 @@ const getNextBabyId = async function () {
 // Multiple recorded history for the baby, stored inside the history field of the babySchema
 const historySchema = new mongoose.Schema({
     baby_id: { type: String, required: true },
-    date: { type: Date, required: true, default: Date.now },
+    date: { type: String, required: true },
+    date_iso8601: { type: Date, required: true, default: Date.now },
     type: { type: String, required: true, default: "History" },
-    temperature: { type: Number },
+    temperature_incubator: { type: Number },
+    temperature_baby: { type: Number },
     humidity: { type: Number },
+    heart_rate: { type: Number },
+    spo2: { type: Number },
     emotion_id: { type: String }
 })
 
@@ -52,15 +46,6 @@ const babySchema = new mongoose.Schema({
         type: String,
         required: true,
         default: "Baby"
-    },
-    temperature: {
-        type: Number
-    },
-    humidity: {
-        type: Number
-    },
-    emotion_id: {
-        type: String
     },
     history: {
         type: [historySchema]

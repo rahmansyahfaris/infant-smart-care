@@ -1,14 +1,12 @@
 GET http://localhost:3000/baby
 ###
-GET http://localhost:3000/baby/baby0000002
+GET http://localhost:3000/baby/baby0000001
 ###
 POST http://localhost:3000/baby
 Content-Type: application/json
 
 {
-    "temperature": 37,
-    "humidity": 0.4,
-    "emotion_id": "emotion_1"
+
 }
 ###
 PATCH http://localhost:3000/baby/baby0000001
@@ -25,9 +23,36 @@ POST http://localhost:3000/baby/baby0000001/history
 Content-Type: application/json
 
 {
-    "temperature": 0.1,
-    "humidity": 0.1,
-    "emotion_id": "emotion_6"
+    "temperature_incubator": 0.3,
+    "temperature_baby": 0.4,
+    "humidity": 0.5,
+    "emotion_id": "emotion_10",
+    "heart_rate": 20,
+    "spo2": 20
 }
 ###
 DELETE http://localhost:3000/baby/baby0000001
+###
+GET http://157.230.37.110:3000/baby
+###
+GET http://157.230.37.110:3000/baby/baby0000001
+###
+POST http://157.230.37.110:3000/baby
+Content-Type: application/json
+
+{
+    "temperature": 50,
+    "humidity": 50,
+    "emotion_id": "emotion_1"
+}
+###
+POST http://157.230.37.110:3000/baby/baby0000004/history
+Content-Type: application/json
+
+{
+    "temperature": 50,
+    "humidity": 50,
+    "emotion_id": "emotion_4"
+}
+###
+GET http://157.230.37.110:3000/baby/baby0000001/history

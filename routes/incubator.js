@@ -1,7 +1,27 @@
 const express = require('express')
+const moment = require('moment-timezone')
 // const mongoose = require('mongoose')
 const router = express.Router()
 const { Incubator } = require('../models/incubator.js')
+
+// Timezone using WIB
+const inputTimeZone = "Asia/Jakarta"
+
+// Convert DD/MM/YYYY hh:mm (WIB time) time format into ISO 8601 time format
+function convertToISO8601(dateTimeString, inputTimeZone) {
+    // Parse the input string
+    const [datePart, timePart] = dateTimeString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hour, minute] = timePart.split(':');
+    
+    // Create a moment object with the parsed values and set the input time zone
+    const momentObj = moment.tz(`${year}-${month}-${day}T${hour}:${minute}:00`, inputTimeZone);
+  
+    // Convert the moment object to ISO 8601 format in UTC
+    const iso8601String = momentObj.toISOString();
+  
+    return iso8601String;
+}
 
 // Get all
 router.get("/", async (req, res) => {
@@ -39,6 +59,7 @@ router.post("/", async (req, res) => {
             incubator_id: incubator_id_used,
             name: req.body.name,
             birth_date: req.body.birth_date,
+            birth_date_iso8601: convertToISO8601(req.body.birth_date, inputTimeZone),
             gender: req.body.gender,
             parents: req.body.parents,
             baby_id: req.body.baby_id,
@@ -58,7 +79,10 @@ router.patch("/:id", getIncubator, async (req, res) => {
     // menggunakan patch dibanding put: karena hanya ingin mengubah sebagian saja, tidak keseluruhan
     if (req.body.incubator_id != null) { res.document.incubator_id = req.body.incubator_id }
     if (req.body.name != null) { res.document.name = req.body.name }
-    if (req.body.birth_date != null) { res.document.birth_date = req.body.birth_date }
+    if (req.body.birth_date != null) {
+        res.document.birth_date = req.body.birth_date
+        res.document.birth_date_iso8601 = convertToISO8601(req.body.birth_date, inputTimeZone)
+    }
     if (req.body.gender != null) { res.document.gender = req.body.gender }
     if (req.body.parents != null) { res.document.parents = req.body.parents }
     if (req.body.baby_id != null) { res.document.baby_id = req.body.baby_id }

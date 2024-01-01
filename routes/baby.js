@@ -1,7 +1,28 @@
 const express = require('express')
+const moment = require('moment-timezone')
 // const mongoose = require('mongoose')
 const router = express.Router()
 const { Baby } = require('../models/baby.js')
+
+// Timezone using WIB
+const outputTimezone = "Asia/Jakarta"
+
+// How many history to store before it gets deleted one by one
+const historyLimit = 4
+
+// Function to convert ISO8601 to custom time format
+function convertISO8601(iso8601String, outputTimeZone) {
+    // Create a moment object with the ISO 8601 string in UTC
+    const momentObj = moment.utc(iso8601String);
+  
+    // Set the output time zone
+    momentObj.tz(outputTimeZone);
+  
+    // Format the moment object to the custom format
+    const customFormat = momentObj.format('DD/MM/YYYY HH:mm:ss');
+  
+    return customFormat;
+}
 
 // Get all
 router.get("/", async (req, res) => {
@@ -37,9 +58,6 @@ router.post("/", async (req, res) => {
         // finalized data
         input = new Baby({
             baby_id: id_used,
-            temperature: req.body.temperature,
-            humidity: req.body.humidity,
-            emotion_id: req.body.emotion_id,
             history: req.body.history,
             date_created: req.body.date_created
         })
@@ -55,9 +73,6 @@ router.post("/", async (req, res) => {
 router.patch("/:id", getDocument, async (req, res) => {
     // menggunakan patch dibanding put: karena hanya ingin mengubah sebagian saja, tidak keseluruhan
     if (req.body.baby_id != null) { res.document.baby_id = req.body.baby_id }
-    if (req.body.temperature != null) { res.document.temperature = req.body.temperature }
-    if (req.body.humidity != null) { res.document.humidity = req.body.humidity }
-    if (req.body.emotion_id != null) { res.document.emotion_id = req.body.emotion_id }
     if (req.body.history != null) { res.document.history = req.body.history }
     if (req.body.date_created != null) { res.document.date_created = req.body.date_created }
     try {
@@ -79,20 +94,23 @@ router.post("/:id/history", getDocument, async (req, res) => {
     try {
         const newHistory = {
             baby_id: req.params.id,
-            date: req.body.date,
-            temperature: req.body.temperature,
+            date: convertISO8601(req.body.date_iso8601, outputTimezone),
+            date_iso8601: req.body.date_iso8601,
+            temperature_incubator: req.body.temperature_incubator,
+            temperature_baby: req.body.temperature_baby,
             humidity: req.body.humidity,
+            heart_rate: req.body.heart_rate,
+            spo2: req.body.spo2,
             emotion_id: req.body.emotion_id,
         };
 
         // Add the new history to the baby's history array
         res.document.history.push(newHistory);
 
-        // Change the current conditions of the baby in the baby schema based on this new history
-        res.document.date = newHistory.date
-        res.document.temperature = newHistory.temperature
-        res.document.humidity = newHistory.humidity
-        res.document.emotion_id = newHistory.emotion_id
+        // Limits the history count by deleting the past histories each time new histories are added
+        if (res.document.history.length > historyLimit) {
+            res.document.history.splice(0, res.document.history.length - historyLimit);
+        }
 
         // Save the updated baby document
         const updatedDocument = await res.document.save();
