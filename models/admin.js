@@ -36,8 +36,7 @@ const adminSchema = new mongoose.Schema({
         default: "Admin"
     },
     name: {
-        type: String,
-        required: true
+        type: String
     },
     hospital_id: {
         type: String,
@@ -45,6 +44,7 @@ const adminSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: true
     },
     password: {

@@ -1,0 +1,36 @@
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "protel@protel.com",
+    "hospital_id": "hospital0000005",
+    "password": "protel123"
+}
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "protel@protel.com",
+    "password": "protel123"
+}
+###
+GET http://157.230.37.110:3000/admin
+###
+POST http://157.230.37.110:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "protel@protel.com",
+    "hospital_id": "hospital0000005",
+    "password": "protel123"
+}
+###
+POST http://157.230.37.110:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "rahmansyahfaris@gmail.com",
+    "password": "protel123"
+}
+###

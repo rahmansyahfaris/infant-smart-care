@@ -1,7 +1,7 @@
 GET http://localhost:3000/incubator
-Api-Key: ProtelLegusApex
 ###
-GET http://localhost:3000/incubator/wow id
+GET http://localhost:3000/incubator/incubator0000002
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA0Njk3MTg3LCJleHAiOjE3MDQ2OTcyNDd9.CYXG7OHOlhCas8BF6lhvpnCzgyDZaZ1xWSa19xn4_Ak
 ###
 POST http://localhost:3000/incubator
 Content-Type: application/json

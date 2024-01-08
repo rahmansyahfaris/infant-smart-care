@@ -85,6 +85,10 @@ app.use('/hospital', hospitalRouter)
 const emotionRouter = require('./routes/emotion.js')
 app.use('/emotion', emotionRouter)
 
+// Router Authentications
+const authRouter = require('./routes/auth.js')
+app.use('/auth', authRouter)
+
 // API Documentation
 const options = {
     definition: {

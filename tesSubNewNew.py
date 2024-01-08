@@ -5,6 +5,7 @@ from paho.mqtt import client as mqtt_client
 import pymongo
 import json
 from datetime import datetime
+import requests
 
 # MQTT Details
 broker = 'broker.hivemq.com'
@@ -14,6 +15,13 @@ topic = "/raspi/incubator/final_project"
 client_id = f'subscribe-{random.randint(0, 100)}'
 # username = 'emqx'
 # password = 'public'
+
+# URL of the API
+api_url = "http://localhost:3000/baby/baby0000001/history"
+# Define the headers
+headers = {
+    "Content-Type": "application/json"
+}
 
 # Connect to MQTT Broker
 def connect_mqtt() -> mqtt_client:
@@ -36,18 +44,47 @@ def subscribe(client: mqtt_client):
         now = datetime.now()
         print(now)
         print(msg.payload)
-        flag = msg.payload.decode() # hasil emotion nya
-        #decoded_json = json.loads(msg.payload)
+        #flag = msg.payload.decode() # hasil emotion nya
+        decoded_json = json.loads(msg.payload)
 
-        #temp = decoded_json["temp"]
-        #humd = decoded_json["humd"]
-        #emot = decoded_json["emot"]
+        temperature_incubator = decoded_json["temperature_incubator"]
+        temperature_baby = decoded_json["temperature_baby"]
+        humidity = decoded_json["humidity"]
+        heart_rate = decoded_json["heart_rate"]
+        spo2 = decoded_json["spo2"]
+        emotion_id = decoded_json["emotion_id"]
+        
+        # reassemble to a collection
+        payload_collection = {
+            "temperature_incubator": temperature_incubator,
+            "temperature_baby": temperature_baby,
+            "humidity": humidity,
+            "heart_rate": heart_rate,
+            "spo2": spo2,
+            "emotion_id": emotion_id
+        }
 
-        push_db(flag) # push data to MongoDB
-        print(f"Received `{flag}` from `{msg.topic}` topic")
+        API_push_history(payload_collection)
+
+        print(f"Received from `{msg.topic}` topic")
 
     client.subscribe(topic)
     client.on_message = on_message
+
+def API_push_history(payload):
+    # Convert the payload to JSON
+    json_payload = json.dumps(payload)
+
+    # Make the POST request
+    response = requests.post(api_url, headers=headers, data=json_payload)
+
+    # Check the response
+    if response.status_code == 200 or 201:
+        print("Request successful!")
+        #print("Response:", response.text)
+    else:
+        print(f"Request failed with status code {response.status_code}")
+        #print("Response:", response.text)
 
 # Function to push data to MongoDB
 def push_db(flag):

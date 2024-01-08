@@ -8,7 +8,7 @@ const { Baby } = require('../models/baby.js')
 const outputTimezone = "Asia/Jakarta"
 
 // How many history to store before it gets deleted one by one
-const historyLimit = 4
+const historyLimit = 10
 
 // Function to convert ISO8601 to custom time format
 function convertISO8601(iso8601String, outputTimeZone) {
@@ -73,7 +73,15 @@ router.post("/", async (req, res) => {
 router.patch("/:id", getDocument, async (req, res) => {
     // menggunakan patch dibanding put: karena hanya ingin mengubah sebagian saja, tidak keseluruhan
     if (req.body.baby_id != null) { res.document.baby_id = req.body.baby_id }
-    if (req.body.history != null) { res.document.history = req.body.history }
+    if (req.body.history != null) {
+        if (Array.isArray(req.body.history)) {
+            // Update 'history' if it's an array
+            res.document.history = req.body.history;
+        } else if (req.body.history.length === 0) {
+            // If 'history' is provided as an empty array, set it to an empty array
+            res.document.history = [];
+        }
+    }
     if (req.body.date_created != null) { res.document.date_created = req.body.date_created }
     try {
         const updatedDocument = await res.document.save()
@@ -87,6 +95,12 @@ router.patch("/:id", getDocument, async (req, res) => {
 router.get("/:id/history", getDocument, (req, res) => {
     // req.params.id
     res.json(res.document.history)
+})
+
+// Get the latest history of a baby
+router.get("/:id/latest-history", getDocument, (req, res) => {
+    // req.params.id
+    res.json(res.document.history[res.document.history.length-1])
 })
 
 // Add a new history for a baby

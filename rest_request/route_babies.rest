@@ -13,22 +13,23 @@ PATCH http://localhost:3000/baby/baby0000001
 Content-Type: application/json
 
 {
-    "emotion_id": "emotion_belly_pain",
     "history": []
 }
 ###
 GET http://localhost:3000/baby/baby0000001/history
 ###
+GET http://localhost:3000/baby/baby0000001/latest-history
+###
 POST http://localhost:3000/baby/baby0000001/history
 Content-Type: application/json
 
 {
-    "temperature_incubator": 0.3,
-    "temperature_baby": 0.4,
-    "humidity": 0.5,
-    "emotion_id": "emotion_10",
-    "heart_rate": 20,
-    "spo2": 20
+    "temperature_incubator": 25.844761352539066,
+    "temperature_baby": 27.690000000000055,
+    "humidity": 57.05366134643555,
+    "emotion_id": 4,
+    "heart_rate": 0,
+    "spo2": 21.758250000000004
 }
 ###
 DELETE http://localhost:3000/baby/baby0000001
@@ -46,13 +47,16 @@ Content-Type: application/json
     "emotion_id": "emotion_1"
 }
 ###
-POST http://157.230.37.110:3000/baby/baby0000004/history
+POST http://157.230.37.110:3000/baby/baby0000001/history
 Content-Type: application/json
 
 {
-    "temperature": 50,
-    "humidity": 50,
-    "emotion_id": "emotion_4"
+    "temperature_incubator": 29.844761352539066,
+    "temperature_baby": 31.690000000000055,
+    "humidity": 61.05366134643555,
+    "emotion_id": 2,
+    "heart_rate": 0,
+    "spo2": 25.758250000000004
 }
 ###
 GET http://157.230.37.110:3000/baby/baby0000001/history
