@@ -20,7 +20,8 @@ client_id = f'subscribe-{random.randint(0, 100)}'
 api_url = "http://localhost:3000/baby/baby0000001/history"
 # Define the headers
 headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Api-Key": "NegusApex123Protel"
 }
 
 # Connect to MQTT Broker

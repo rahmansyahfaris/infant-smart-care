@@ -5,6 +5,8 @@ const router = express.Router()
 const { Incubator } = require('../models/incubator.js')
 const { verifyToken } = require('../auth_middleware.js')
 
+router.use(verifyToken)
+
 // Timezone using WIB
 const inputTimeZone = "Asia/Jakarta"
 
@@ -23,8 +25,6 @@ function convertToISO8601(dateTimeString, inputTimeZone) {
   
     return iso8601String;
 }
-
-router.use(verifyToken)
 
 // Get all
 router.get("/", async (req, res) => {

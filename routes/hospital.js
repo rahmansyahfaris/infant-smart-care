@@ -2,6 +2,9 @@ const express = require('express')
 // const mongoose = require('mongoose')
 const router = express.Router()
 const Hospital = require('../models/hospital.js')
+const { verifyToken } = require('../auth_middleware.js')
+
+router.use(verifyToken)
 
 // Get all
 router.get("/", async (req, res) => {

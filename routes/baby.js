@@ -3,6 +3,7 @@ const moment = require('moment-timezone')
 // const mongoose = require('mongoose')
 const router = express.Router()
 const { Baby } = require('../models/baby.js')
+const { checkApiKey, verifyToken } = require('../auth_middleware.js')
 
 // Timezone using WIB
 const outputTimezone = "Asia/Jakarta"
@@ -25,7 +26,7 @@ function convertISO8601(iso8601String, outputTimeZone) {
 }
 
 // Get all
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     try {
         const document = await Baby.find()
         res.json(document)
@@ -35,13 +36,13 @@ router.get("/", async (req, res) => {
 })
 
 // Get one
-router.get("/:id", getDocument, (req, res) => {
+router.get("/:id", verifyToken, getDocument, (req, res) => {
     // req.params.id
     res.json(res.document)
 })
 
 // Create one
-router.post("/", async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
     try {
         let input // the document that will be finalized
         let id_used // the id that will be assigned, determined using the if else statement below
@@ -70,7 +71,7 @@ router.post("/", async (req, res) => {
 })
 
 // Update one
-router.patch("/:id", getDocument, async (req, res) => {
+router.patch("/:id", verifyToken, getDocument, async (req, res) => {
     // menggunakan patch dibanding put: karena hanya ingin mengubah sebagian saja, tidak keseluruhan
     if (req.body.baby_id != null) { res.document.baby_id = req.body.baby_id }
     if (req.body.history != null) {
@@ -92,19 +93,19 @@ router.patch("/:id", getDocument, async (req, res) => {
 })
 
 // Get all history of a baby
-router.get("/:id/history", getDocument, (req, res) => {
+router.get("/:id/history", verifyToken, getDocument, (req, res) => {
     // req.params.id
     res.json(res.document.history)
 })
 
 // Get the latest history of a baby
-router.get("/:id/latest-history", getDocument, (req, res) => {
+router.get("/:id/latest-history", verifyToken, getDocument, (req, res) => {
     // req.params.id
     res.json(res.document.history[res.document.history.length-1])
 })
 
 // Add a new history for a baby
-router.post("/:id/history", getDocument, async (req, res) => {
+router.post("/:id/history", checkApiKey, getDocument, async (req, res) => {
     try {
         const newHistory = {
             baby_id: req.params.id,
@@ -137,7 +138,7 @@ router.post("/:id/history", getDocument, async (req, res) => {
 
 
 // Delete one
-router.delete("/:id", getDocument, async (req, res) => {
+router.delete("/:id", verifyToken, getDocument, async (req, res) => {
     try {
         await res.document.deleteOne()
         res.json({ message: "Document successfully deleted" })

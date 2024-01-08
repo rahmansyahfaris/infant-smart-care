@@ -11,6 +11,7 @@ Content-Type: application/json
 ###
 PATCH http://localhost:3000/baby/baby0000001
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA0Njk3MTg3LCJleHAiOjE3MDQ2OTcyNDd9.CYXG7OHOlhCas8BF6lhvpnCzgyDZaZ1xWSa19xn4_Ak
 
 {
     "history": []
@@ -49,14 +50,15 @@ Content-Type: application/json
 ###
 POST http://157.230.37.110:3000/baby/baby0000001/history
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA0Njk0MTI5LCJleHAiOjE3MDQ3ODA1Mjl9.82B463yXmTe_uFYIms5-21Ru6ZpOA3PF6vc8GuAOr_I
 
 {
-    "temperature_incubator": 29.844761352539066,
-    "temperature_baby": 31.690000000000055,
-    "humidity": 61.05366134643555,
-    "emotion_id": 2,
-    "heart_rate": 0,
-    "spo2": 25.758250000000004
+    "temperature_incubator": 1,
+    "temperature_baby": 1,
+    "humidity": 1,
+    "emotion_id": 1,
+    "heart_rate": 1,
+    "spo2": 1
 }
 ###
 GET http://157.230.37.110:3000/baby/baby0000001/history
