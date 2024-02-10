@@ -16,8 +16,6 @@ client_id = f'subscribe-{random.randint(0, 100)}'
 # username = 'emqx'
 # password = 'public'
 
-# URL of the API
-api_url = "http://localhost:3000/baby/baby0000001/history"
 # Define the headers
 headers = {
     "Content-Type": "application/json",
@@ -48,6 +46,8 @@ def subscribe(client: mqtt_client):
         #flag = msg.payload.decode() # hasil emotion nya
         decoded_json = json.loads(msg.payload)
 
+        #baby_id = decoded_json["baby_id"]
+        incubator_id = decoded_json["incubator_id"]
         temperature_incubator = decoded_json["temperature_incubator"]
         temperature_baby = decoded_json["temperature_baby"]
         humidity = decoded_json["humidity"]
@@ -65,27 +65,30 @@ def subscribe(client: mqtt_client):
             "emotion_id": emotion_id
         }
 
-        API_push_history(payload_collection)
+        # request url
+        api_url = f"http://localhost:3000/baby/{incubator_id}/history_by_incubator"
+
+        API_push_history(payload_collection, api_url)
 
         print(f"Received from `{msg.topic}` topic")
 
     client.subscribe(topic)
     client.on_message = on_message
 
-def API_push_history(payload):
+def API_push_history(payload, req_url):
     # Convert the payload to JSON
     json_payload = json.dumps(payload)
 
     # Make the POST request
-    response = requests.post(api_url, headers=headers, data=json_payload)
+    response = requests.post(req_url, headers=headers, data=json_payload)
 
     # Check the response
     if response.status_code == 200 or 201:
         print("Request successful!")
-        #print("Response:", response.text)
+        #print("Response:", response.text) # to see success response
     else:
         print(f"Request failed with status code {response.status_code}")
-        #print("Response:", response.text)
+        #print("Response:", response.text) # to see error response
 
 # Function to push data to MongoDB
 def push_db(flag):

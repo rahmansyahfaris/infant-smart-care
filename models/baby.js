@@ -42,10 +42,28 @@ const babySchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    incubator_id: {
+        type: String
+    },
     type: {
         type: String,
         required: true,
         default: "Baby"
+    },
+    name: {
+        type: String
+    },
+    birth_date: {
+        type: String,
+    },
+    birth_date_iso8601: {
+        type: Date
+    },
+    gender: {
+        type: String
+    },
+    parent: {
+        type: String
     },
     history: {
         type: [historySchema]

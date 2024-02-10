@@ -8,8 +8,27 @@ const { checkApiKey, verifyToken } = require('../auth_middleware.js')
 // Timezone using WIB
 const outputTimezone = "Asia/Jakarta"
 
+// Timezone using WIB
+const inputTimeZone = "Asia/Jakarta"
+
 // How many history to store before it gets deleted one by one
 const historyLimit = 10
+
+// Convert DD/MM/YYYY hh:mm (WIB time) time format into ISO 8601 time format
+function convertToISO8601(dateTimeString, inputTimeZone) {
+    // Parse the input string
+    const [datePart, timePart] = dateTimeString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hour, minute] = timePart.split(':');
+    
+    // Create a moment object with the parsed values and set the input time zone
+    const momentObj = moment.tz(`${year}-${month}-${day}T${hour}:${minute}:00`, inputTimeZone);
+  
+    // Convert the moment object to ISO 8601 format in UTC
+    const iso8601String = momentObj.toISOString();
+  
+    return iso8601String;
+}
 
 // Function to convert ISO8601 to custom time format
 function convertISO8601(iso8601String, outputTimeZone) {
@@ -59,6 +78,12 @@ router.post("/", verifyToken, async (req, res) => {
         // finalized data
         input = new Baby({
             baby_id: id_used,
+            incubator_id: req.body.incubator_id,
+            name: req.body.name,
+            birth_date: req.body.birth_date,
+            birth_date_iso8601: convertToISO8601(req.body.birth_date, inputTimeZone),
+            gender: req.body.gender,
+            parent: req.body.parent,
             history: req.body.history,
             date_created: req.body.date_created
         })
@@ -74,6 +99,14 @@ router.post("/", verifyToken, async (req, res) => {
 router.patch("/:id", verifyToken, getDocument, async (req, res) => {
     // menggunakan patch dibanding put: karena hanya ingin mengubah sebagian saja, tidak keseluruhan
     if (req.body.baby_id != null) { res.document.baby_id = req.body.baby_id }
+    if (req.body.incubator_id != null) { res.document.incubator_id = req.body.incubator_id }
+    if (req.body.name != null) { res.document.name = req.body.name }
+    if (req.body.birth_date != null) {
+        res.document.birth_date = req.body.birth_date
+        res.document.birth_date_iso8601 = convertToISO8601(req.body.birth_date, inputTimeZone)
+    }
+    if (req.body.gender != null) { res.document.gender = req.body.gender }
+    if (req.body.parent != null) { res.document.name = req.body.parent }
     if (req.body.history != null) {
         if (Array.isArray(req.body.history)) {
             // Update 'history' if it's an array
@@ -104,11 +137,43 @@ router.get("/:id/latest-history", verifyToken, getDocument, (req, res) => {
     res.json(res.document.history[res.document.history.length-1])
 })
 
-// Add a new history for a baby
+// Add a new history for a baby (by baby_id)
 router.post("/:id/history", checkApiKey, getDocument, async (req, res) => {
     try {
         const newHistory = {
-            baby_id: req.params.id,
+            baby_id: res.document.baby_id,
+            date: convertISO8601(req.body.date_iso8601, outputTimezone),
+            date_iso8601: req.body.date_iso8601,
+            temperature_incubator: req.body.temperature_incubator,
+            temperature_baby: req.body.temperature_baby,
+            humidity: req.body.humidity,
+            heart_rate: req.body.heart_rate,
+            spo2: req.body.spo2,
+            emotion_id: req.body.emotion_id,
+        };
+
+        // Add the new history to the baby's history array
+        res.document.history.push(newHistory);
+
+        // Limits the history count by deleting the past histories each time new histories are added
+        if (res.document.history.length > historyLimit) {
+            res.document.history.splice(0, res.document.history.length - historyLimit);
+        }
+
+        // Save the updated baby document
+        const updatedDocument = await res.document.save();
+
+        res.status(201).json(updatedDocument.history);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Add a new history for a baby (by incubator_id)
+router.post("/:incubator_id/history_by_incubator", checkApiKey, getDocumentIncubator, async (req, res) => {
+    try {
+        const newHistory = {
+            baby_id: res.document.baby_id,
             date: convertISO8601(req.body.date_iso8601, outputTimezone),
             date_iso8601: req.body.date_iso8601,
             temperature_incubator: req.body.temperature_incubator,
@@ -152,6 +217,22 @@ async function getDocument(req, res, next) {
     let document
     try {
         document = await Baby.findOne({ baby_id: req.params.id }) // req.params.id (id di sini match sama id yang ada di parameter linknya, yakni "/:id")
+        if (document == null) {
+            return res.status(404).json({ message: 'Cannot find document' })
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+
+    res.document = document
+    next()
+}
+
+// Middleware
+async function getDocumentIncubator(req, res, next) {
+    let document
+    try {
+        document = await Baby.findOne({ incubator_id: req.params.incubator_id }) // req.params.id (id di sini match sama id yang ada di parameter linknya, yakni "/:id")
         if (document == null) {
             return res.status(404).json({ message: 'Cannot find document' })
         }
