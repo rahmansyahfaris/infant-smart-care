@@ -4,8 +4,10 @@ GET http://localhost:3000/hospital/hospital0000001
 ###
 POST http://localhost:3000/hospital
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc1NjYxNTcsImV4cCI6MTcwNzU4MDU1N30.v8dj1-BWWqRSeaKdsseN72mVo8PkDuHWiSbS8WJ9N-M
 
 {
+    "hospital_id": "hospital0000001",
     "name": "RS Merpatiku wow",
     "address": "Jln. Merpatiku wow"
 }

@@ -1,0 +1,35 @@
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "protel@protel.com",
+    "hospital_id": "hospital0000001",
+    "password": "protel123"
+}
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "protel@protel.com",
+    "password": "protel123"
+}
+###
+GET http://localhost:3000/baby/account
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA3NjQxMDk0LCJleHAiOjE3MDc2NTU0OTR9.Q0TC_q0rUVHoexnQe7pyf0e7ytW4SBmCAiw174UqxMs
+###
+POST http://localhost:3000/baby/account
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA3NjQxMDk0LCJleHAiOjE3MDc2NTU0OTR9.Q0TC_q0rUVHoexnQe7pyf0e7ytW4SBmCAiw174UqxMs
+
+{
+    "name": "Osas",
+    "incubator_id": "incubatorpunyaosas",
+    "birth_date": "29/07/2023 00:00",
+    "gender": "Male",
+    "parent": "Mwe"
+}
+###
+GET http://localhost:3000/admin/account
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA3NjQxMDk0LCJleHAiOjE3MDc2NTU0OTR9.Q0TC_q0rUVHoexnQe7pyf0e7ytW4SBmCAiw174UqxMs
+###

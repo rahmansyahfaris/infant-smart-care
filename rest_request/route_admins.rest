@@ -26,3 +26,6 @@ Content-Type: application/json
 ###
 DELETE  http://localhost:3000/admin/admin0000001
 Api-Key: LegusApex123
+###
+GET http://157.230.37.110:3000/admin
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA3NjQxMDk0LCJleHAiOjE3MDc2NTU0OTR9.Q0TC_q0rUVHoexnQe7pyf0e7ytW4SBmCAiw174UqxMs

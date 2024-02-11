@@ -16,6 +16,16 @@ router.get("/", async (req, res) => {
     }
 })
 
+// Get the admin account that is being accessed
+router.get("/account", async (req, res) => {
+    try {
+        const admin = await Admin.findOne({ email: req.decoded.admin })
+        res.json(admin)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
 // Get one
 router.get("/:id", getAdmin, (req, res) => {
     // req.params.id

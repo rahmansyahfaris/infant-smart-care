@@ -1,0 +1,36 @@
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "rahmansyahfaris@gmail.com",
+    "hospital_id": "hospital0000001",
+    "password": "protel123"
+}
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "rahmansyahfaris@gmail.com",
+    "password": "protel123"
+}
+###
+GET http://localhost:3000/baby/account
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2NDU1NTYsImV4cCI6MTcwNzY1OTk1Nn0.-b0rRrKTR-oCt5V3UCd7G_YL12iP1TMzXHYfr0oyF2Y
+###
+POST http://localhost:3000/baby/account
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2NDU1NTYsImV4cCI6MTcwNzY1OTk1Nn0.-b0rRrKTR-oCt5V3UCd7G_YL12iP1TMzXHYfr0oyF2Y
+
+{
+    "name": "Halol",
+    "incubator_id": "incubatorhalo",
+    "birth_date": "29/07/2023 00:00",
+    "gender": "Male",
+    "parent": "Ayahalol",
+    "hospital_id": "uvuvuvu"
+}
+###
+GET http://localhost:3000/admin/account
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2NDU1NTYsImV4cCI6MTcwNzY1OTk1Nn0.-b0rRrKTR-oCt5V3UCd7G_YL12iP1TMzXHYfr0oyF2Y
+###

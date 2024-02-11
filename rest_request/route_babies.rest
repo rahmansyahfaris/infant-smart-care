@@ -1,28 +1,52 @@
 GET http://localhost:3000/baby
 ###
+GET http://localhost:3000/baby/account
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2MzEwNzEsImV4cCI6MTcwNzY0NTQ3MX0.XDGoi4pVISMQNt7CZSOxs3K_XgxD150rfKZMLV58DdU
+###
 GET http://localhost:3000/baby/baby0000001
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2MzEwNzEsImV4cCI6MTcwNzY0NTQ3MX0.XDGoi4pVISMQNt7CZSOxs3K_XgxD150rfKZMLV58DdU
 ###
 POST http://localhost:3000/baby
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2MzEwNzEsImV4cCI6MTcwNzY0NTQ3MX0.XDGoi4pVISMQNt7CZSOxs3K_XgxD150rfKZMLV58DdU
 
 {
-
+    "name": "Halol",
+    "incubator_id": "incubatorhalo",
+    "birth_date": "29/07/2023 00:00",
+    "gender": "Male",
+    "parent": "Ayahalol",
+    "admins": "rahmansyahfaris@gmail.com",
+    "hospital_id": "hospital0000001"
 }
 ###
-PATCH http://localhost:3000/baby/baby0000001
+POST http://localhost:3000/baby/account
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90ZWwuY29tIiwiaWF0IjoxNzA0Njk3MTg3LCJleHAiOjE3MDQ2OTcyNDd9.CYXG7OHOlhCas8BF6lhvpnCzgyDZaZ1xWSa19xn4_Ak
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2MzEwNzEsImV4cCI6MTcwNzY0NTQ3MX0.XDGoi4pVISMQNt7CZSOxs3K_XgxD150rfKZMLV58DdU
 
 {
-    "history": []
+    "name": "Halol",
+    "incubator_id": "incubatorhalo",
+    "birth_date": "29/07/2023 00:00",
+    "gender": "Male",
+    "parent": "Ayahalol"
+}
+###
+PATCH http://localhost:3000/baby/baby0000009
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc2MzEwNzEsImV4cCI6MTcwNzY0NTQ3MX0.XDGoi4pVISMQNt7CZSOxs3K_XgxD150rfKZMLV58DdU
+
+{
+    "admins": []
 }
 ###
 GET http://localhost:3000/baby/baby0000001/history
 ###
 GET http://localhost:3000/baby/baby0000001/latest-history
 ###
-POST http://localhost:3000/baby/baby0000001/history
+POST http://localhost:3000/baby/baby0000003/history
 Content-Type: application/json
+Api-Key: NegusApex123Protel
 
 {
     "temperature_incubator": 25.844761352539066,
@@ -36,9 +60,11 @@ Content-Type: application/json
 DELETE http://localhost:3000/baby/baby0000001
 ###
 GET http://157.230.37.110:3000/baby
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc1Njk2NzksImV4cCI6MTcwNzU4NDA3OX0.7KFsh2oiCaKY8hkOhytB6PT0wF9tHNlmvGCxo0PpzgI
+
 ###
 GET http://157.230.37.110:3000/baby/baby0000003
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc1NTQzMjIsImV4cCI6MTcwNzU2ODcyMn0.qA__-QY_ee9uVrNJbUfoOix_V9v-5ByJufM2vkA6E-o
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhmYXJpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDc1Njk2NzksImV4cCI6MTcwNzU4NDA3OX0.7KFsh2oiCaKY8hkOhytB6PT0wF9tHNlmvGCxo0PpzgI
 ###
 POST http://157.230.37.110:3000/baby
 Content-Type: application/json
@@ -52,30 +78,30 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InJhaG1hbnN5YWhm
     "parent": "Ayahalol"
 }
 ###
-POST http://157.230.37.110:3000/baby/baby0000016/history
+POST http://157.230.37.110:3000/baby/baby0000019/history
 Content-Type: application/json
 Api-Key: NegusApex123Protel
 
 {
-    "temperature_incubator": 24,
-    "temperature_baby": 23,
-    "humidity": 1,
-    "emotion_id": 5,
-    "heart_rate": 3,
-    "spo2": 10
+    "temperature_incubator": 25.844761352539066,
+    "temperature_baby": 27.690000000000055,
+    "humidity": 57.05366134643555,
+    "emotion_id": 4,
+    "heart_rate": 0,
+    "spo2": 21.758250000000004
 }
 ###
-POST http://157.230.37.110:3000/baby/001/history_by_incubator
+POST http://157.230.37.110:3000/baby/002/history_by_incubator
 Content-Type: application/json
 Api-Key: NegusApex123Protel
 
 {
-    "temperature_incubator": 24,
-    "temperature_baby": 23,
-    "humidity": 1,
-    "emotion_id": 5,
-    "heart_rate": 3,
-    "spo2": 10
+    "temperature_incubator": 25.844761352539066,
+    "temperature_baby": 30,
+    "humidity": 57.05366134643555,
+    "emotion_id": 4,
+    "heart_rate": 0,
+    "spo2": 21.758250000000004
 }
 ###
 GET http://157.230.37.110:3000/baby/baby0000001/history

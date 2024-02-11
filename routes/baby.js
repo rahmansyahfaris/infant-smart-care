@@ -3,6 +3,8 @@ const moment = require('moment-timezone')
 // const mongoose = require('mongoose')
 const router = express.Router()
 const { Baby } = require('../models/baby.js')
+const Hospital = require('../models/hospital.js')
+const Admin = require('../models/admin.js')
 const { checkApiKey, verifyToken } = require('../auth_middleware.js')
 
 // Timezone using WIB
@@ -44,10 +46,41 @@ function convertISO8601(iso8601String, outputTimeZone) {
     return customFormat;
 }
 
+// Function to set the custom time format to be only the time and not the date
+function convertToTimeOnly(dateTimeString) {
+    // Split the date string into date and time components
+    const [date, time] = dateTimeString.split(' ');
+
+    // Split the time component into hours, minutes, and seconds
+    const [hours, minutes, seconds] = time.split(':');
+
+    // Construct the time-only string in HH:mm:ss format
+    const timeOnlyString = `${hours}:${minutes}:${seconds}`;
+
+    return timeOnlyString;
+}
+
 // Get all
 router.get("/", verifyToken, async (req, res) => {
     try {
         const document = await Baby.find()
+        res.json(document)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
+// Get all (hospital / account filtered)
+router.get("/account", verifyToken, async (req, res) => {
+    try {
+        // just for testing
+        //const admin = await Admin.findOne({ email: req.decoded.admin })
+        //const hospital = await Hospital.findOne({ hospital_id: admin.hospital_id })
+        //console.log(`Hello ${req.decoded.admin} (${admin.admin_id}) at hospital ${hospital.name} with id ${hospital.hospital_id}`)
+        const theAdmin = await Admin.findOne({ email: req.decoded.admin })
+        const document = await Baby.find({
+            hospital_id: theAdmin.hospital_id
+        })
         res.json(document)
     } catch (err) {
         res.status(500).json({ message: err.message })
@@ -84,6 +117,44 @@ router.post("/", verifyToken, async (req, res) => {
             birth_date_iso8601: convertToISO8601(req.body.birth_date, inputTimeZone),
             gender: req.body.gender,
             parent: req.body.parent,
+            hospital_id: req.body.hospital_id,
+            history: req.body.history,
+            date_created: req.body.date_created
+        })
+
+        const newDocument = await input.save();
+        res.status(201).json(newDocument);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+})
+
+// Create one (by account)
+router.post("/account", verifyToken, async (req, res) => {
+    try {
+        const theAdmin = await Admin.findOne({ email: req.decoded.admin })
+        let input // the document that will be finalized
+        let id_used // the id that will be assigned, determined using the if else statement below
+
+        // use own unique id (if) or use autoincremented id (else)
+        // do not follow conventional autoincremented id pattern if you want to use your own id
+        if (req.body.baby_id) {
+            id_used = req.body.baby_id
+        } else {
+            const generated_id = await Baby.getNextBabyId() // generate autoincremented id
+            id_used = generated_id
+        }
+
+        // finalized data
+        input = new Baby({
+            baby_id: id_used,
+            incubator_id: req.body.incubator_id,
+            name: req.body.name,
+            birth_date: req.body.birth_date,
+            birth_date_iso8601: convertToISO8601(req.body.birth_date, inputTimeZone),
+            gender: req.body.gender,
+            parent: req.body.parent,
+            hospital_id: theAdmin.hospital_id,
             history: req.body.history,
             date_created: req.body.date_created
         })
@@ -106,7 +177,8 @@ router.patch("/:id", verifyToken, getDocument, async (req, res) => {
         res.document.birth_date_iso8601 = convertToISO8601(req.body.birth_date, inputTimeZone)
     }
     if (req.body.gender != null) { res.document.gender = req.body.gender }
-    if (req.body.parent != null) { res.document.name = req.body.parent }
+    if (req.body.parent != null) { res.document.parent = req.body.parent }
+    if (req.body.hospital_id != null) { res.document.hospital_id = req.body.hospital_id }
     if (req.body.history != null) {
         if (Array.isArray(req.body.history)) {
             // Update 'history' if it's an array
@@ -144,6 +216,7 @@ router.post("/:id/history", checkApiKey, getDocument, async (req, res) => {
             baby_id: res.document.baby_id,
             date: convertISO8601(req.body.date_iso8601, outputTimezone),
             date_iso8601: req.body.date_iso8601,
+            time: convertToTimeOnly(convertISO8601(req.body.date_iso8601, outputTimezone)),
             temperature_incubator: req.body.temperature_incubator,
             temperature_baby: req.body.temperature_baby,
             humidity: req.body.humidity,
@@ -176,6 +249,7 @@ router.post("/:incubator_id/history_by_incubator", checkApiKey, getDocumentIncub
             baby_id: res.document.baby_id,
             date: convertISO8601(req.body.date_iso8601, outputTimezone),
             date_iso8601: req.body.date_iso8601,
+            time: convertToTimeOnly(convertISO8601(req.body.date_iso8601, outputTimezone)),
             temperature_incubator: req.body.temperature_incubator,
             temperature_baby: req.body.temperature_baby,
             humidity: req.body.humidity,
@@ -201,7 +275,6 @@ router.post("/:incubator_id/history_by_incubator", checkApiKey, getDocumentIncub
     }
 });
 
-
 // Delete one
 router.delete("/:id", verifyToken, getDocument, async (req, res) => {
     try {
@@ -212,7 +285,7 @@ router.delete("/:id", verifyToken, getDocument, async (req, res) => {
     }
 })
 
-// Middleware
+// Middleware for identifying baby document by baby_id
 async function getDocument(req, res, next) {
     let document
     try {
@@ -228,7 +301,7 @@ async function getDocument(req, res, next) {
     next()
 }
 
-// Middleware
+// Middleware for identifying baby document by incubator_id
 async function getDocumentIncubator(req, res, next) {
     let document
     try {

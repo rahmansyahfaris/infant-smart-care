@@ -30,7 +30,7 @@ const allowOnlyWhitelistedIPs = (req, res, next) => {
 // Apply the middleware to specific routes or globally using this:
 // app.use(allowOnlyWhitelistedIPs);
 
-// Middleware to verify JWT token
+// Middleware to verify and decode JWT token
 const verifyToken = (req, res, next) => {
   // Get the token from the request headers, query parameters, or wherever you've set it
   const token = req.headers.authorization || req.query.token

@@ -26,6 +26,7 @@ const historySchema = new mongoose.Schema({
     baby_id: { type: String, required: true },
     date: { type: String, required: true },
     date_iso8601: { type: Date, required: true, default: Date.now },
+    time: { type: String, required: true },
     type: { type: String, required: true, default: "History" },
     temperature_incubator: { type: Number },
     temperature_baby: { type: Number },
@@ -63,6 +64,9 @@ const babySchema = new mongoose.Schema({
         type: String
     },
     parent: {
+        type: String
+    },
+    hospital_id: {
         type: String
     },
     history: {
