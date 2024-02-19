@@ -46,7 +46,7 @@ def subscribe(client: mqtt_client):
         #flag = msg.payload.decode() # hasil emotion nya
         decoded_json = json.loads(msg.payload)
 
-        #baby_id = decoded_json["baby_id"]
+        hospital_id = decoded_json["hospital_id"]
         incubator_id = decoded_json["incubator_id"]
         temperature_incubator = decoded_json["temperature_incubator"]
         temperature_baby = decoded_json["temperature_baby"]
@@ -66,7 +66,7 @@ def subscribe(client: mqtt_client):
         }
 
         # request url
-        api_url = f"http://localhost:3000/baby/{incubator_id}/history_by_incubator"
+        api_url = f"http://localhost:3000/baby/{hospital_id}/{incubator_id}/history_by_incubator"
 
         API_push_history(payload_collection, api_url)
 

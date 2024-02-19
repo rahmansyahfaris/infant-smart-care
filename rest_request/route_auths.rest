@@ -35,6 +35,15 @@ Content-Type: application/json
     "password": "protel123"
 }
 ###
+POST http://157.230.37.110:3000/auth/register
+Content-Type: application/json
+
+{
+    "hospital_id": "RS ITS",
+    "email": "rahmansyahfaris@gmail.com",
+    "password": "protel123"
+}
+###
 POST http://157.230.37.110:3000/auth/login
 Content-Type: application/json
 

@@ -24,7 +24,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6InByb3RlbEBwcm90
 
 {
     "name": "Osas",
-    "incubator_id": "incubatorpunyaosas",
+    "incubator_id": "incubatorhalo",
     "birth_date": "29/07/2023 00:00",
     "gender": "Male",
     "parent": "Mwe"

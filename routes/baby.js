@@ -243,7 +243,7 @@ router.post("/:id/history", checkApiKey, getDocument, async (req, res) => {
 });
 
 // Add a new history for a baby (by incubator_id)
-router.post("/:incubator_id/history_by_incubator", checkApiKey, getDocumentIncubator, async (req, res) => {
+router.post("/:hospital_id/:incubator_id/history_by_incubator", checkApiKey, getDocumentIncubator, async (req, res) => {
     try {
         const newHistory = {
             baby_id: res.document.baby_id,
@@ -301,11 +301,11 @@ async function getDocument(req, res, next) {
     next()
 }
 
-// Middleware for identifying baby document by incubator_id
+// Middleware for identifying baby document by incubator_id and hospital_id
 async function getDocumentIncubator(req, res, next) {
     let document
     try {
-        document = await Baby.findOne({ incubator_id: req.params.incubator_id }) // req.params.id (id di sini match sama id yang ada di parameter linknya, yakni "/:id")
+        document = await Baby.findOne({ incubator_id: req.params.incubator_id, hospital_id: req.params.hospital_id }) // req.params.id (id di sini match sama id yang ada di parameter linknya, yakni "/:id")
         if (document == null) {
             return res.status(404).json({ message: 'Cannot find document' })
         }
